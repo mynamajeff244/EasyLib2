@@ -9,6 +9,10 @@
 4. Import it like you would any other java class: import EasyLib2.EasyLib2;
 5. Instantiate the class: EasyLib2 e = new EasyLib2();
 
+##Updates
+1.0.0 Initial Release
+1.0.1 Added 3 new features, cleaned up some code.
+
 ##Contribution
 To contribute feel free to report contribute by clicking the "Contribute" section.
 
