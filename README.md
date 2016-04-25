@@ -14,6 +14,8 @@
 
 1.0.1 Added 3 new features, cleaned up some code.
 
+1.0.2 Fixed a couple things, added support to PC when requesting the PC username.
+
 ##Contribution
 To contribute feel free to report contribute by clicking the "Contribute" section.
 
