@@ -1,4 +1,4 @@
-//Version 1.0.1 at school currently, added a few new features.
+//Version 1.0.2 fixed a couple bugs.
 package EasyLib2;
 
 import java.io.BufferedReader;
@@ -109,11 +109,19 @@ public class EasyLib2 {
 	public String GetComputerName(){
 		String computerName = new String(System.getProperty("user.home"));
 		String last = "";
-		
-		for(int i = 1; i < computerName.length(); i++){
-			if(computerName.charAt(i) == '/'){
-				for(int x = i + 1; x < computerName.length(); x++){
-					last += computerName.charAt(x);
+		if(computerName.charAt(0) == 'C'){ //To check if the computer is Windows
+			for(int i = 2; i < computerName.length(); i++){
+				if(computerName.charAt(i) == '\\'){
+					i += 7;
+				}
+				last += computerName.charAt(i);
+			}
+		}else{ //Otherwise assume its a MAC
+			for(int i = 1; i < computerName.length(); i++){
+				if(computerName.charAt(i) == '/'){
+					for(int x = i + 1; x < computerName.length(); x++){
+						last += computerName.charAt(x);
+					}
 				}
 			}
 		}
