@@ -1,8 +1,9 @@
-//Version 1.0.0 - More updates coming tomorrow, need to rest! :D
-
+//Version 1.0.1 at school currently, added a few new features.
 package EasyLib2;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,8 +14,11 @@ import java.util.Random;
  * <p> Instantiating this class allows the user to easily do tasks such as get the computers screen width and height, write to log files, print to the console and many more
  * unique features!
  * 
+ * HINT: Import the class by doing: import EasyLib2.EasyLib2;
+ * HINT: Intantiate by typing: EasyLib2 ANYTHING = new EasyLib2();
+ * 
  * @author romponu
- * @since 22/4/2016
+ * @since 25/4/2016
  */
 public class EasyLib2 {
 	static Random r = new Random();
@@ -84,6 +88,45 @@ public class EasyLib2 {
 		writer.println(phraseToWrite);
 		writer.close();
 	}
+	/**<p>
+	 * Returns the contents of the specified line.
+	 * @param logName the name of the log file
+	 * @param location the location of the log file
+	 * @param specificLine a specific line in a log file.
+	 */
+	public String ReadLog(String logName, String location, int specificLine) throws IOException{
+		FileReader reader = new FileReader(location.concat(logName));
+		BufferedReader bReader = new BufferedReader(reader);
+		for(int i = 0; i < specificLine; i++){
+			bReader.readLine();
+		}
+		String line = bReader.readLine();
+		return line;
+	}
+	/**<p>
+	 * Returns the username as an actual username, instead of recieveing /Users/USERNAME, you will get USERNAME.
+	 */
+	public String GetComputerName(){
+		String computerName = new String(System.getProperty("user.home"));
+		String last = "";
+		
+		for(int i = 1; i < computerName.length(); i++){
+			if(computerName.charAt(i) == '/'){
+				for(int x = i + 1; x < computerName.length(); x++){
+					last += computerName.charAt(x);
+				}
+			}
+		}
+		return last;
+	}
+	/**<p>
+	 * Gets the directory of the previously given log file. 
+	 */
+	public String GetDIR(String logName){
+		File file = new File(fileLocation.concat(logName));
+		if(!file.exists()) return "This file does not has not been previously created by EasyLib2.";
+		return file.getAbsolutePath();
+	}
 	/** <p>
 	* Deletes the specified log files contents.
 	* 
@@ -91,9 +134,9 @@ public class EasyLib2 {
 	* @param location The location in which the log file is to be cleared.
 	*/
 	public void ClearLog(String logName, String location) throws IOException{
-		File file = new File(location.concat(logName));
 		PrintWriter writer = new PrintWriter(location.concat(logName));
 		writer.flush();
+		writer.close();
 	}
 	/** <p>
 	* Generates a random string.
