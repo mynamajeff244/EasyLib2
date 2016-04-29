@@ -23,6 +23,3 @@ To contribute feel free to report contribute by clicking the "Contribute" sectio
 Some functions cause depreciation, this is due to the newest JDK having many new librarys that I am still learning about.
 
 Looping when creating a file or writing a file can cause some processing problems while your program is open.
-
-##Donations
-Im doing this for free, that means you can use this and I wont care if you pay me or not, If you do distribute it please give me some credit, and if you want to donate to me for working on this project feel free to do so, although it is not something you are obligated to do: [PAYPAL HERE](https://www.paypal.me/romponu)
