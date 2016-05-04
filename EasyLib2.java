@@ -1,12 +1,14 @@
-//Version 1.0.2 fixed a couple bugs.
+// Version 1.0.3 Added new features.
 package EasyLib2;
 
+import java.awt.MouseInfo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.Random;
 
@@ -14,11 +16,8 @@ import java.util.Random;
  * <p> Instantiating this class allows the user to easily do tasks such as get the computers screen width and height, write to log files, print to the console and many more
  * unique features!
  * 
- * HINT: Import the class by doing: import EasyLib2.EasyLib2;
- * HINT: Intantiate by typing: EasyLib2 ANYTHING = new EasyLib2();
- * 
  * @author romponu
- * @since 25/4/2016
+ * @since 22/4/2016
  */
 public class EasyLib2 {
 	static Random r = new Random();
@@ -79,13 +78,15 @@ public class EasyLib2 {
 	* @param location The location in which you would like the log file to be written to.
 	* @param phraseToWrite The phrase or sentence the user wants to write into the log file.
 	*/
-	public void WriteToLog(String logName, String location, String phraseToWrite) throws IOException{
+	public void WriteToLog(String logName, String location, boolean onNewLine, String phraseToWrite) throws IOException{
 		File file = new File(location.concat(logName));
 		PrintWriter writer = new PrintWriter(new FileWriter(location.concat(logName), true));
 		if(!file.exists()){
 			CreateLog(logName, location, false);
 		}
-		writer.println(phraseToWrite);
+		if(onNewLine) writer.println(phraseToWrite);
+		else
+			writer.print(phraseToWrite);
 		writer.close();
 	}
 	/**<p>
@@ -96,6 +97,7 @@ public class EasyLib2 {
 	 */
 	public String ReadLog(String logName, String location, int specificLine) throws IOException{
 		FileReader reader = new FileReader(location.concat(logName));
+		@SuppressWarnings("resource")
 		BufferedReader bReader = new BufferedReader(reader);
 		for(int i = 0; i < specificLine; i++){
 			bReader.readLine();
@@ -103,25 +105,18 @@ public class EasyLib2 {
 		String line = bReader.readLine();
 		return line;
 	}
+	
 	/**<p>
 	 * Returns the username as an actual username, instead of recieveing /Users/USERNAME, you will get USERNAME.
 	 */
 	public String GetComputerName(){
 		String computerName = new String(System.getProperty("user.home"));
 		String last = "";
-		if(computerName.charAt(0) == 'C'){ //To check if the computer is Windows
-			for(int i = 2; i < computerName.length(); i++){
-				if(computerName.charAt(i) == '\\'){
-					i += 7;
-				}
-				last += computerName.charAt(i);
-			}
-		}else{ //Otherwise assume its a MAC
-			for(int i = 1; i < computerName.length(); i++){
-				if(computerName.charAt(i) == '/'){
-					for(int x = i + 1; x < computerName.length(); x++){
-						last += computerName.charAt(x);
-					}
+		
+		for(int i = 1; i < computerName.length(); i++){
+			if(computerName.charAt(i) == '/'){
+				for(int x = i + 1; x < computerName.length(); x++){
+					last += computerName.charAt(x);
 				}
 			}
 		}
@@ -147,6 +142,20 @@ public class EasyLib2 {
 		writer.close();
 	}
 	/** <p>
+	* Deletes the specified file.
+	* 
+	* @param logName The name of the log file you want to clear.
+	* @param location The location in which the log file is to be cleared.
+	*/
+	public void DeleteLog(String logName, String location){
+		File file = new File(location.concat(logName));
+		if(file.delete()){
+			return;
+		}else{
+			println(file.getName() + " was not deleted.");
+		}
+	}
+	/** <p>
 	* Generates a random string.
 	* 
 	* @param numOfLetters The amount of letters the user would like to generate.
@@ -163,6 +172,19 @@ public class EasyLib2 {
 		}
 		String str = new String(chars);
 		return str;
+	}
+	/** <p>
+	* Generates a random number.
+	* 
+	* @param timesToLoop The amount of times the function will loop.
+	* 
+	*/
+	public int RandomNumber(int timesToLoop){
+		int rand = 0;
+		for(int i = 0; i < timesToLoop; i++){
+			rand += r.nextInt(99);
+		}
+		return rand;
 	}
 	/** <p>
 	* Encrypts a given string, can be decrypted.
@@ -239,4 +261,18 @@ public class EasyLib2 {
 		Date date = new Date();
 		return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 	}
+	/**<p>
+	 * Returns mouse X position.
+	 */
+	public int GetMouseX(){
+		return (int)MouseInfo.getPointerInfo().getLocation().getX();
+	}
+	/**<p>
+	 * Returns mouse X position.
+	 */
+	public int GetMouseY(){
+		return (int)MouseInfo.getPointerInfo().getLocation().getY();
+	}
+	
+	
 }
