@@ -1,4 +1,4 @@
-// Version 1.0.3 Added new features.
+// Version 1.0.4 Added a few new features.
 package EasyLib2;
 
 import java.awt.MouseInfo;
@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.util.Date;
 import java.util.Random;
 
@@ -52,6 +51,11 @@ public class EasyLib2 {
 	public void println(Object o){
 		System.out.println(o);
 	}	
+	/**<p> Prints a new line.
+	 * */
+	public void println(){
+		System.out.println();
+	}
 	/** <p>
 	* Creates a log file in a given location.
 	* 
@@ -89,6 +93,17 @@ public class EasyLib2 {
 			writer.print(phraseToWrite);
 		writer.close();
 	}
+	 
+	/**<p>
+	 * Returns whether a file exists or not
+	 * @param logName the name of the log file
+	 * @param location the location of the log file
+	 * */
+	public boolean doesFileExist(String fileName, String location){
+		File file = new File(location.concat(fileName));
+		return file.exists();
+	}
+	
 	/**<p>
 	 * Returns the contents of the specified line.
 	 * @param logName the name of the log file
@@ -104,6 +119,19 @@ public class EasyLib2 {
 		}
 		String line = bReader.readLine();
 		return line;
+	}
+	
+	/**<p>
+	 * Returns the amount of lines in a file.
+	 * @param logName the name of the file.
+	 * @param location the location of the file.
+	 * */
+	public int GetFileLength(String fileName, String location) throws IOException{
+		BufferedReader reader = new BufferedReader(new FileReader(location.concat(fileName)));
+		int lines = 0;
+		while (reader.readLine() != null) lines++;
+		reader.close();
+		return lines;
 	}
 	
 	/**<p>
@@ -273,6 +301,4 @@ public class EasyLib2 {
 	public int GetMouseY(){
 		return (int)MouseInfo.getPointerInfo().getLocation().getY();
 	}
-	
-	
 }
